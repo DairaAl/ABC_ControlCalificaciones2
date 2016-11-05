@@ -4,7 +4,7 @@
 //Autor: Petra Almanza Lobatos
 //Tamaño: 17LOC
 //--------------------------------------------
-package controlcalificacionesv2;
+package controlcalificaciones;
 
 import java.sql.*;
 
