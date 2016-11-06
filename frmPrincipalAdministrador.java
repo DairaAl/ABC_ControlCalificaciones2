@@ -4,22 +4,32 @@
 //Autor: Petra Almanza Lobatos
 //Tamaño: 12LOC
 //--------------------------------------------
-package controlcalificaciones;
+//--------------------------------------------
+//Programa: bajaMaestro
+//Fecha: 05/11/2016
+//Autor: Petra Almanza Lobatos
+//Tamaño: LOC
+//--------------------------------------------
+package GUI;
 
+import BD.*;
+import Entidades.*;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class Administrador extends javax.swing.JFrame {
+public class frmPrincipalAdministrador extends javax.swing.JFrame {
 
     DefaultTableModel model;
     bdAlumno mBDAlumno;
+    bdMaestro mBDMaestro;
 
-    public Administrador() {
+    public frmPrincipalAdministrador() {
         initComponents();
         mBDAlumno = new bdAlumno();
-        this.cargar();
+        mBDMaestro = new bdMaestro();
+        this.consultarAlumnos();
         this.diseño();
     }
 
@@ -81,32 +91,32 @@ public class Administrador extends javax.swing.JFrame {
         jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel18.setText("Reportes");
 
-        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/controlcalificaciones/curso2.png"))); // NOI18N
+        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/curso2.png"))); // NOI18N
 
         jLabel25.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel25.setText("Curso");
 
-        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/controlcalificaciones/administrator_2.png"))); // NOI18N
+        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/administrator_2.png"))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Cambiar contraseña");
 
-        jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/controlcalificaciones/alumno3.png"))); // NOI18N
+        jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/alumno3.png"))); // NOI18N
         jLabel27.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel27MouseClicked(evt);
             }
         });
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/controlcalificaciones/docente3.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/docente3.png"))); // NOI18N
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/controlcalificaciones/materia3.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/materia3.png"))); // NOI18N
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/controlcalificaciones/clases3.png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/clases3.png"))); // NOI18N
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/controlcalificaciones/calificaciones3.png"))); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/calificaciones3.png"))); // NOI18N
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/controlcalificaciones/grafica3.png"))); // NOI18N
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/grafica3.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -209,11 +219,11 @@ public class Administrador extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/controlcalificaciones/nuevo.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nuevo.png"))); // NOI18N
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/controlcalificaciones/Icono_encuesta2.png"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Icono_encuesta2.png"))); // NOI18N
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/controlcalificaciones/eliminar.png"))); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel9MouseClicked(evt);
@@ -279,7 +289,7 @@ public class Administrador extends javax.swing.JFrame {
                             .addComponent(jLabel23)
                             .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(29, 29, 29)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(1, 1, 1)
@@ -296,7 +306,7 @@ public class Administrador extends javax.swing.JFrame {
         );
 
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/controlcalificaciones/fondo.jpg"))); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondo.jpg"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -335,7 +345,44 @@ public class Administrador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
-    public void cargar() {
+    public void diseño() {
+        this.setTitle("Administrador");
+        //this.setExtendedState(MAXIMIZED_BOTH);
+        this.setResizable(false);
+        Image ico = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/esc.png"));
+        setIconImage(ico);
+        jPanel1.setBackground(new Color(255, 255, 255, 200));
+        jPanel2.setBackground(new Color(255, 255, 255, 200));
+    }
+
+    public void altaAlumno() {
+
+    }
+
+    public void eliminarAlumnos() {
+        //1-Obtener el id del alumno que se selecciono para ser eliminado.
+        alumno mAlumno = new alumno();
+        mAlumno.setIdAlumno(Tabla.getValueAt(Tabla.getSelectedRow(), 0).toString());
+        //2-Mandar un mensaje de confirmacion de elimnaci�n.
+        if (JOptionPane.showConfirmDialog(null, "Decea eliminar este registro?") == 0) {
+            //3-Si el mensaje es confirmado realizar la eliminacion.
+            //     3.1-Mandar el alumno a la ejecucion de actualizacion de bdAlumno.
+            boolean confirmacion = mBDAlumno.eliminarAlumno(mAlumno);
+            //     3.2Mandar un mensaje de exito en la operacion.
+            if (confirmacion) {
+                JOptionPane.showMessageDialog(null, "Registro Eliminado!");
+            }
+        }
+        //4-En caso de ser lancelada la accion de eliminar, cancelar la operacion.
+        //5-Actualizar la lista de alumnos en la interfaz.
+        this.consultarAlumnos();
+    }
+
+    public void cambioAlumnos() {
+
+    }
+
+    public void consultarAlumnos() {
         String[] titulos = {"Matricula", "Nombre", "Semestre", "Grupo"};
         model = new DefaultTableModel(null, titulos);
         ArrayList nList = mBDAlumno.consultarAlumno();
@@ -353,15 +400,46 @@ public class Administrador extends javax.swing.JFrame {
 
     }
 
-    public void diseño() {
-        this.setTitle("Administrador");
-        //this.setExtendedState(MAXIMIZED_BOTH);
-        this.setResizable(false);
-        Image ico = Toolkit.getDefaultToolkit().getImage(getClass().getResource("esc.png"));
-        setIconImage(ico);
-        jPanel1.setBackground(new Color(255, 255, 255, 200));
-        jPanel2.setBackground(new Color(255, 255, 255, 200));
+    public void altaMaestro() {
+
     }
+
+    public void eliminarMaestro() {
+        //1-Obtener el id del docente que se
+        //selecciono para ser eliminado.
+        maestro mMaestro = new maestro();
+        mMaestro.setId(Tabla.getValueAt(Tabla.getSelectedRow(), 0).toString());
+        //2-Mandar un mensaje de confirmacion de
+        //elimnaci�n.
+        if (JOptionPane.showConfirmDialog(null, "Decea eliminar este registro?") == 0) {
+            //3-Si el mensaje es confirmado realizar
+            //la eliminacion.
+            //        3.1-Mandar el docente a la
+            //ejecucion de actualizacion de bdMaestro.
+            boolean confirmacion = mBDMaestro.eliminarMaestro(mMaestro);
+            //
+            //        3.2Mandar un mensaje de exito
+            //en la operacion.
+            if (confirmacion) {
+                JOptionPane.showMessageDialog(null, "Registro Eliminado!");
+            }
+        }
+        //5-Actualizar la lista de docentes en la
+        //interfaz.
+        this.consultarMaestros();
+        //6-Programar el boton para eliminar al
+        //docente
+    }
+
+    public void cambiosMaestro() {
+
+    }
+
+    public void consultarMaestros() {
+
+    }
+
+
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
     }                                         
@@ -384,41 +462,18 @@ public class Administrador extends javax.swing.JFrame {
     }                                    
 
     private void jLabel27MouseClicked(java.awt.event.MouseEvent evt) {                                      
-        this.cargar();
+        this.consultarAlumnos();
     }                                     
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {                                     
-        this.eliminarAlumnos();
-    }                                    
-
-    public void eliminarAlumnos() {
-        //1-Obtener el id del alumno que se selecciono para ser eliminado.
-        alumno mAlumno = new alumno();
-        mAlumno.setIdAlumno(Tabla.getValueAt(Tabla.getSelectedRow(), 0).toString());
-        //2-Mandar un mensaje de confirmacion de elimnaci�n.
-        if (JOptionPane.showConfirmDialog(null, "Decea eliminar este registro?") == 0) {
-            //3-Si el mensaje es confirmado realizar la eliminacion.
-            //     3.1-Mandar el alumno a la ejecucion de actualizacion de bdAlumno.
-            boolean confirmacion = mBDAlumno.eliminarAlumno(mAlumno);
-            //     3.2Mandar un mensaje de exito en la operacion.
-            if (confirmacion) {
-                JOptionPane.showMessageDialog(null, "Registro Eliminado!");
-            }
+        if (evt.getSource() == jLabel27) {
+            this.eliminarAlumnos();
         }
-        //4-En caso de ser lancelada la accion de eliminar, cancelar la operacion.
-        //5-Actualizar la lista de alumnos en la interfaz.
-        this.cargar();
-        //6-.Permitir la eliminacion de registros
-        //por conjunto(optativo).
-    }
+        if (evt.getSource() == jLabel4) {
+            this.eliminarMaestro();
+        }
 
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Administrador().setVisible(true);
-            }
-        });
-    }
+    }                                    
 
     // Variables declaration - do not modify                     
     private javax.swing.JTable Tabla;
