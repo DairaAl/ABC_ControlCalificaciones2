@@ -1,6 +1,4 @@
-//Falta encabezado.
-
-package controlcalificaciones;
+package BD;
 
 import java.sql.*;
 import java.util.logging.*;
