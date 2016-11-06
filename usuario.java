@@ -2,21 +2,18 @@
 //Programa: Login
 //Fecha: 30/10/2016
 //Autor: Petra Almanza Lobatos
-//Tamaño: 32LOC
+//Tamaño: 28LOC
 //--------------------------------------------
-
-package controlcalificacionesv2;
+package Entidades;
 
 public class usuario {
 
     int id,
             tipoUsuario;
-    String nombre,
-            contraseña;
+    String contraseña;
 
     public usuario() {
         id = 0;
-        nombre = null;
         contraseña = null;
     }
 
@@ -34,14 +31,6 @@ public class usuario {
 
     public void setTipoUsuario(int tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public String getContraseña() {
