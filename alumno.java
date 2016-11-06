@@ -1,6 +1,6 @@
 //Les falta el encabezado
 
-package controlcalificaciones;
+package Entidades;
 
 public class alumno {
 
@@ -8,14 +8,6 @@ public class alumno {
     private String idAlumno;
     private String nombre;
     private int semestre;
-
-    public alumno() {
-
-    }
-
-    public void finalize() throws Throwable {
-
-    }
 
     public char getGrupo() {
         return grupo;
