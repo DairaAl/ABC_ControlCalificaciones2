@@ -1,4 +1,4 @@
-//Flta encabezado.
+//Falta encabezado.
 
 package controlcalificaciones;
 
