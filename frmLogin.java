@@ -1,12 +1,16 @@
 //--------------------------------------------
 //Programa: Login
-//Fecha: 12/10/2016
+//Fecha: 30/10/2016
 //Autor: Petra Almanza Lobatos
-//Tamaño: 17LOC
+//Tamaño: 45LOC
 //--------------------------------------------
-package controlcalificaciones;
+package GUI;
 
+import BD.bdUsuario;
+import Entidades.usuario;
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.logging.*;
 import javax.swing.*;
 
 public class frmLogin extends javax.swing.JFrame {
@@ -16,7 +20,7 @@ public class frmLogin extends javax.swing.JFrame {
 
     public frmLogin() {
         initComponents();
-        this.diseño();
+        this.frmLoginVentana();
     }
 
     @SuppressWarnings("unchecked")
@@ -160,7 +164,7 @@ public class frmLogin extends javax.swing.JFrame {
         jLabel3.setBounds(200, 30, 182, 29);
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/controlcalificacionesv2/img/fondo.jpg"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondo.jpg"))); // NOI18N
         jLabel4.setText("jLabel4");
         getContentPane().add(jLabel4);
         jLabel4.setBounds(-6, -10, 460, 350);
@@ -168,15 +172,15 @@ public class frmLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
-    public void diseño() {
+    public void frmLoginVentana() {
         this.setTitle("Bienvenido!");
-        Image ico = Toolkit.getDefaultToolkit().getImage(getClass().getResource("./img/esc.png"));
+        Image ico = Toolkit.getDefaultToolkit().getImage(getClass().getResource("../img/esc.png"));
         setIconImage(ico);
         setLocationRelativeTo(null);
         this.setSize(new Dimension(445, 360));
         this.setMinimumSize(new Dimension(445, 360));
         this.setResizable(false);
-        ImageIcon img = new ImageIcon(getClass().getResource("./img/user_group_256.png"));
+        ImageIcon img = new ImageIcon(getClass().getResource("../img/user_group_256.png"));
         ImageIcon icon = new ImageIcon(img.getImage().getScaledInstance(label3.getWidth(), label3.getHeight(), Image.SCALE_DEFAULT));
         label3.setIcon(icon);
         jPanel2.setBackground(new Color(255, 255, 255, 200));
@@ -184,20 +188,40 @@ public class frmLogin extends javax.swing.JFrame {
         this.mesgUser.setVisible(false);
         this.msgNum.setVisible(false);
     }
-    private void BTNLoginActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        usuario mUsuario = mLogin.login(Integer.parseInt(this.txtUser.getText()));
-        if (mUsuario.getId() != 0) {
-            System.out.println(mUsuario.getContraseña());
-            if (mUsuario.getContraseña().equals(this.txtPassword.getText())) {
-                frmAdministrador mVentanaAdmin = new frmAdministrador();
-                mVentanaAdmin.setVisible(true);
+
+    public void login() {
+        usuario mUsuario;
+        try {
+            mUsuario = mLogin.login(Integer.parseInt(this.txtUser.getText()));
+            if (mUsuario.getId() == Integer.parseInt(this.txtUser.getText())) {
+                if (mUsuario.getContraseña().equals(this.txtPassword.getText())) {
+                    if (mUsuario.getTipoUsuario() == 0) {
+                        frmPrincipalAdministrador mVentanaAdmin = new frmPrincipalAdministrador();
+                        mVentanaAdmin.setVisible(true);
+                        this.setVisible(false);
+                    } else {
+                        frmPrincipalMaestro mVentanaDocente = new frmPrincipalMaestro();
+                        mVentanaDocente.setVisible(true);
+                        this.setVisible(false);
+                    }
+                } else {
+                    this.msgPaswd.setVisible(true);
+                }
             } else {
-                this.msgPaswd.setVisible(true);
+                this.mesgUser.setVisible(true);
             }
-        } else {
-            this.mesgUser.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(frmLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(frmLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(frmLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    private void BTNLoginActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        this.login();
     }                                        
 
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {                                        
@@ -221,13 +245,6 @@ public class frmLogin extends javax.swing.JFrame {
         }
     }                                
 
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new frmLogin().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify                     
     private javax.swing.JToggleButton BTNCancel;
