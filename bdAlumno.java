@@ -4,24 +4,16 @@
 //Autor: Petra Almanza Lobatos
 //Tamaño: 13LOC
 //--------------------------------------------
-//Cada quien poner su encabezado con la parte que le toco y el total de LOC que realizaron y comenten el codigo.
+//Cada quien poner su encabezado con la parte que le toco y el total de LOC que realizaron.
+package BD;
 
-package controlcalificaciones;
-
+import Entidades.alumno;
 import java.sql.ResultSet;
 import java.util.List;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 
 public class bdAlumno {
-
-    public bdAlumno() {
-
-    }
-
-    public void finalize() throws Throwable {
-
-    }
 
     public boolean agregarAlumno(alumno mAlumno) {
         String SQL = "INSERT INTO alumno (idAlumno, nombre, semestre, grupo) values"
@@ -95,7 +87,7 @@ public class bdAlumno {
         return lista;
     }
 
-    public boolean eliminarAlumno(alumno mAlumno){
+    public boolean eliminarAlumno(alumno mAlumno) {
         String SQL = "DELETE FROM alumno WHERE idAlumno='" + mAlumno.getIdAlumno() + "';";
         bdConexion mBD = new bdConexion();
         boolean comprovacion = false;
@@ -115,7 +107,7 @@ public class bdAlumno {
         return comprovacion;
     }
 
-    public boolean modificarAlumno(alumno mAlumno){
-	return false;
+    public boolean modificarAlumno(alumno mAlumno) {
+        return false;
     }
 }
