@@ -1,32 +1,32 @@
 //--------------------------------------------
 //Programa: Login
-//Fecha: 12/10/2016
+//Fecha: 30/10/2016
 //Autor: Petra Almanza Lobatos
-//Tamaño: 17LOC
+//Tamaño: 18LOC
 //--------------------------------------------
-package controlcalificaciones;
+package BD;
 
+import Entidades.usuario;
 import java.sql.*;
 
 public class bdUsuario {
 
     usuario myUsuario = new usuario();
-    bdConector mySQL;
+    bdConexion mySQL;
     String query;
 
-    public usuario login(int id) {
-        mySQL = new bdConector();
-        mySQL.connect();
-        query = "SELECT * FROM usuario WHERE idUsuario=" + myUsuario.getId() + ";";
-        String[] mResult = mySQL.executeQuery(query);
-        if (mResult.length != 0) {
-            myUsuario.setId(Integer.parseInt(mResult[0]));
-            myUsuario.setNombre(mResult[1]);
-            myUsuario.setContraseña(mResult[2]);
-            myUsuario.setTipoUsuario(Integer.parseInt(mResult[3]));
-            return myUsuario;
-        } else {
-            return myUsuario;
+    public usuario login(int id) throws SQLException, InstantiationException, IllegalAccessException {
+        mySQL = new bdConexion();
+        Connection mCon = mySQL.conectar();
+        query = "SELECT * FROM usuario WHERE idUsuario=" + id + ";";
+        ResultSet mResult = mySQL.ejecutarConsulta(query);
+        System.out.println(mResult.getRow());
+        while (mResult.next()) {
+            myUsuario.setId(Integer.parseInt(mResult.getString("idUsuario")));
+            myUsuario.setContraseña(mResult.getString("Contrasena"));
+            myUsuario.setTipoUsuario(Integer.parseInt(mResult.getString("tipoUsuario_idUsuario")));
         }
+        mySQL.desconectar(mCon);
+        return myUsuario;
     }
 }
